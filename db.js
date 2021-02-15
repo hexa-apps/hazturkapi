@@ -16,7 +16,7 @@ const distanceTA = (request, response) => {
   console.log(lng);
   console.log(distance);
   const sql =
-    "select ta.gid, ta.layer, ta.kod, st_astext(st_transform(st_centroid(ta.geom),4326)) from " +
+    "select ta.gid, ta.layer, ta.kod, st_x(st_transform(st_centroid(ta.geom),4326)), st_y(st_transform(st_centroid(ta.geom),4326)) from " +
     config.TABLE +
     " ta where st_contains(ST_Buffer(st_transform(ST_GeomFromText('POINT(" +
     lng +
