@@ -46,9 +46,8 @@ const distanceTA = (request, response) => {
         )
         .then((res) => {
           console.log(res);
-          return res.toString();
         });
-      // response.status(200).json(results.rows);
+      response.status(200).json(results.rows);
     } else {
       distance = 1000;
       var sqll =
