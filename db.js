@@ -1,4 +1,8 @@
+// st_x => lng
+// st_y => lat
+
 const Pool = require("pg").Pool;
+const axios = require("axios");
 const config = require("./config.json");
 const pool = new Pool({
   user: config.USERNAME,
@@ -27,7 +31,24 @@ const distanceTA = (request, response) => {
       throw error;
     }
     if (results.rowCount > 0) {
-      response.status(200).json(results.rows);
+      var a = axios
+        .get(
+          "https://api.mapbox.com/directions/v5/mapbox/walking/" +
+            lng +
+            "," +
+            lat +
+            ";" +
+            results.rows[0]["st_x"] +
+            "," +
+            results.rows[0]["st_y"] +
+            "?alternatives=true&geometries=geojson&steps=true&access_token=" +
+            config.MAPBOXAPI
+        )
+        .then((res) => {
+          console.log(res);
+          return res.toString();
+        });
+      // response.status(200).json(results.rows);
     } else {
       distance = 1000;
       var sqll =
