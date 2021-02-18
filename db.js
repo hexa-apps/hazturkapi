@@ -29,29 +29,36 @@ const distanceTA = (request, response) => {
     if (error) {
       throw error;
     }
-    console.log("500")
+    console.log("500");
     if (results.rowCount > 0) {
+      console.log(results.rows);
       response.status(200).json(results.rows);
     } else {
-      var sqll = "select ta.gid, ta.layer, ta.kod, st_x(st_transform(st_centroid(ta.geom),4326)), st_y(st_transform(st_centroid(ta.geom),4326)) from dene ta where st_contains(ST_Buffer(st_transform(ST_GeomFromText('POINT(29 41)', 4326), 5254),1000,'quad_segs=8'),ta.geom);"
+      var sqll =
+        "select ta.gid, ta.layer, ta.kod, st_x(st_transform(st_centroid(ta.geom),4326)), st_y(st_transform(st_centroid(ta.geom),4326)) from dene ta where st_contains(ST_Buffer(st_transform(ST_GeomFromText('POINT(29 41)', 4326), 5254),1000,'quad_segs=8'),ta.geom);";
       pool.query(sqll, [], (error, results) => {
         if (error) {
           throw error;
         }
-        console.log("1000")
+        console.log("1000");
         if (results.rowCount > 0) {
+          console.log(results.rows);
+
           response.status(200).json(results.rows);
         } else {
-          var sqll = "select ta.gid, ta.layer, ta.kod, st_x(st_transform(st_centroid(ta.geom),4326)), st_y(st_transform(st_centroid(ta.geom),4326)) from dene ta where st_contains(ST_Buffer(st_transform(ST_GeomFromText('POINT(29 41)', 4326), 5254),1500,'quad_segs=8'),ta.geom);"
+          var sqll =
+            "select ta.gid, ta.layer, ta.kod, st_x(st_transform(st_centroid(ta.geom),4326)), st_y(st_transform(st_centroid(ta.geom),4326)) from dene ta where st_contains(ST_Buffer(st_transform(ST_GeomFromText('POINT(29 41)', 4326), 5254),1500,'quad_segs=8'),ta.geom);";
           pool.query(sqll, [], (error, results) => {
             if (error) {
               throw error;
             }
-            console.log(1500)
+            console.log(1500);
+            console.log(results.rows);
+
             response.status(200).json(results.rows);
-          })
+          });
         }
-      })
+      });
     }
   });
 };
