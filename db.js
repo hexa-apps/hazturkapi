@@ -2,7 +2,6 @@
 // st_y => lat
 
 const Pool = require("pg").Pool;
-const axios = require("axios");
 const config = require("./config.json");
 const pool = new Pool({
   user: config.USERNAME,
@@ -11,37 +10,6 @@ const pool = new Pool({
   database: config.DATABASE,
   port: parseInt(config.PORT),
 });
-
-const getTAdirection = async (lng, lat, taList) => {
-  try {
-    console.log(taList);
-    console.log(config.MAPBOXAPI);
-    var durations = [];
-    for (var i = 0; i < taList.length; i++) {
-      var result = await axios
-        .get(
-          "https://api.mapbox.com/directions/v5/mapbox/walking/" +
-            lng +
-            "," +
-            lat +
-            ";" +
-            taList[i]["st_x"] +
-            "," +
-            taList[i]["st_y"] +
-            "?geometries=geojson&access_token=" +
-            config.MAPBOXAPI
-        )
-        .then((res) => {
-          durations.push(res["data"]["routes"][0]["duration"]);
-        });
-      // return result;
-      // .then((res) => console.log(res["data"]["routes"][0]["duration"]));
-    }
-    return durations;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const distanceTA = (request, response) => {
   const lng = parseFloat(request.params.lng);
@@ -62,26 +30,6 @@ const distanceTA = (request, response) => {
       throw error;
     }
     if (results.rowCount > 0) {
-      // var a = axios
-      //   .get(
-      //     "https://api.mapbox.com/directions/v5/mapbox/walking/" +
-      //       lng +
-      //       "," +
-      //       lat +
-      //       ";" +
-      //       results.rows[0]["st_x"] +
-      //       "," +
-      //       results.rows[0]["st_y"] +
-      //       "?alternatives=true&geometries=geojson&steps=true&access_token=" +
-      //       config.MAPBOXAPI
-      //   )
-      //   .then((res) => {
-      //     console.log(res);
-      //   });
-      var asd = getTAdirection(lng, lat, results.rows);
-      console.log(asd);
-      console.log("as");
-
       response.status(200).json(results.rows);
     } else {
       distance = 1000;
