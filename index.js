@@ -43,7 +43,7 @@ app.get("/checkta/:lng;:lat", async (req, res) => {
   const lng = req.params.lng;
   const lat = req.params.lat;
   const datalist = [];
-  let url = `http://localhost:9000/ta/${lng};${lat};500`;
+  let url = `http://${config.LOCALHOST}:9000/ta/${lng};${lat};500`;
   let fetchdata = await fetch(url);
   let data = await fetchdata.json();
   if (data.length > 0) {
@@ -53,7 +53,7 @@ app.get("/checkta/:lng;:lat", async (req, res) => {
       );
     }
   } else {
-    url = `http://localhost:9000/ta/${lng};${lat};1000`;
+    url = `http://${config.LOCALHOST}:9000/ta/${lng};${lat};1000`;
     fetchdata = await fetch(url);
     data = await fetchdata.json();
     if (data.length > 0) {
@@ -63,7 +63,7 @@ app.get("/checkta/:lng;:lat", async (req, res) => {
         );
       }
     } else {
-      url = `http://localhost:9000/ta/${lng};${lat};1500`;
+      url = `http://${config.LOCALHOST}:9000/ta/${lng};${lat};1500`;
       fetchdata = await fetch(url);
       data = await fetchdata.json();
       if (data.length > 0) {
