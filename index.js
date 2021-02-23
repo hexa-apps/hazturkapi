@@ -79,7 +79,9 @@ app.get("/checkta/:lng;:lat", async (req, res) => {
     var durations = [];
     const gelenler = await getParallel(datalist);
     for (var k = 0; k < gelenler.length; k++) {
-      durations.push(gelenler[k].routes[0].duration);
+      if (gelenler[k].routes.length > 0) {
+        durations.push(gelenler[k].routes[0].duration);
+      }
     }
     var minIndex = durations.indexOf(Math.min.apply(Math, durations));
     cikti = gelenler[minIndex];
